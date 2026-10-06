@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="app.css">
+<title>Admin - Ruang Rasa</title>
+</head>
+<body>
+<header class="nav">
+  <a class="logo" href="dashboard.html">Ruang Rasa</a>
+  <nav class="appnav">
+    <a href="dashboard.html">Beranda</a>
+    <button class="btn ghost" id="logoutBtn" type="button">Keluar</button>
+  </nav>
+</header>
+
+<main class="admin-wrap">
+  <h1>Laporan Keuangan</h1>
+  <p class="small">Halaman ini hanya untuk admin.</p>
+
+  <section class="stats" id="stats"></section>
+
+  <section class="panel">
+    <h2>Pendapatan per bulan</h2>
+    <div class="chart" id="chart" aria-label="Grafik pendapatan per bulan"></div>
+    <div id="byProduct" class="small"></div>
+  </section>
+
+  <section class="panel">
+    <h2>Menunggu konfirmasi</h2>
+    <p class="small">Cocokkan kode pesanan dan bukti QRIS dari WhatsApp, lalu konfirmasi setelah uang masuk.</p>
+    <div id="pending"><p class="small">Memuat...</p></div>
+  </section>
+
+  <section class="panel">
+    <div class="compose-row" style="margin-top:0">
+      <h2>Semua transaksi</h2>
+      <button class="btn ghost" id="csvBtn" type="button">Export CSV</button>
+    </div>
+    <div class="table-wrap">
+      <table class="tbl">
+        <thead><tr><th>Tanggal</th><th>Kode</th><th>Pembeli</th><th>Produk</th><th>Nominal</th><th>Metode</th><th>Status</th></tr></thead>
+        <tbody id="rows"></tbody>
+      </table>
+    </div>
+  </section>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
+<script src="admin.js"></script>
+</body>
+</html>

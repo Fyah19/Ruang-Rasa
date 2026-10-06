@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Masuk - Ruang Rasa</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="app.css">
+</head>
+<body class="auth-body">
+
+<main class="auth-card">
+  <a class="logo" href="index.html">Ruang Rasa</a>
+  <h1 id="title">Selamat datang kembali</h1>
+  <p id="subtitle">Masuk untuk melanjutkan ceritamu.</p>
+
+  <div class="tabs" role="tablist">
+    <button type="button" id="tabLogin" class="active" role="tab">Masuk</button>
+    <button type="button" id="tabRegister" role="tab">Daftar</button>
+  </div>
+
+  <form id="authForm" novalidate>
+    <label for="email">Email</label>
+    <input id="email" type="email" autocomplete="email" required placeholder="kamu@email.com">
+
+    <label for="password">Kata sandi</label>
+    <input id="password" type="password" autocomplete="current-password" required minlength="6" placeholder="Minimal 6 karakter">
+
+    <p id="msg" class="msg" role="alert"></p>
+    <button class="btn big" id="submitBtn" type="submit">Masuk</button>
+  </form>
+
+  <p class="small">Emailmu tidak pernah tampil di feed. Kamu akan mendapat nama samaran otomatis.</p>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
+<script src="auth.js"></script>
+</body>
+</html>

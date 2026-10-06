@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Beranda - Ruang Rasa</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+
+<header class="nav">
+  <a class="logo" href="dashboard.html">Ruang Rasa</a>
+  <nav style="display:flex">
+    <span id="planBadge" class="badge">Free</span>
+    <button class="btn ghost" id="logoutBtn" type="button">Keluar</button>
+  </nav>
+</header>
+
+<main class="dash">
+  <h1 id="hello">Halo...</h1>
+  <p>Ini ruangmu. Fitur lain akan ditambahkan satu per satu.</p>
+
+  <div class="grid">
+    <a class="card c1" href="feed.html" style="text-decoration:none"><h3>Curhat dan Feed</h3><p>Tulis cerita dan beri dukungan.</p></a>
+    <a class="card c2" href="mood.html" style="text-decoration:none"><h3>Mood Tracker</h3><p>Catat dan lihat perasaanmu.</p></a>
+    <a class="card c3" href="journal.html" style="text-decoration:none"><h3>Jurnal</h3><p>Tulis pikiran dan perasaanmu.</p></a>
+    <a class="card c4" href="akun.html" style="text-decoration:none"><h3>Akun dan Langganan</h3><p>Kelola paket dan upgrade Premium.</p></a>
+  </div>
+
+  <p class="small">Butuh bantuan sekarang? Hubungi 119 ext. 8 (layanan kesehatan jiwa).</p>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
+<script src="dashboard.js"></script>
+</body>
+</html>

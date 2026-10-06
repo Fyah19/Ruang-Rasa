@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="app.css">
+<title>Jurnal - Ruang Rasa</title>
+</head>
+<body>
+<header class="nav">
+  <a class="logo" href="dashboard.html">Ruang Rasa</a>
+  <nav class="appnav">
+    <a href="feed.html">Curhat</a>
+    <a href="mood.html">Mood</a>
+    <a href="journal.html">Jurnal</a>
+    <button class="btn ghost" id="logoutBtn" type="button">Keluar</button>
+  </nav>
+</header>
+<div class="helpbar">Butuh bantuan sekarang? Hubungi <strong>119 ext. 8</strong> (layanan kesehatan jiwa).</div>
+<main class="feed-wrap">
+  <h1>Jurnal</h1>
+  <p>Tuangkan pikiranmu. Jurnal bersifat pribadi, hanya kamu yang bisa membacanya.</p>
+
+  <section class="compose">
+    <label for="jTitle" class="sr">Judul</label>
+    <input id="jTitle" maxlength="100" placeholder="Judul (opsional)" style="width:100%;margin-bottom:.7rem">
+    <label for="jContent" class="sr">Isi jurnal</label>
+    <textarea id="jContent" rows="6" maxlength="5000" placeholder="Hari ini aku merasa..."></textarea>
+    <div class="compose-row">
+      <span id="quota" class="small"></span>
+      <button class="btn" id="saveBtn" type="button">Simpan jurnal</button>
+    </div>
+    <p id="msg" class="msg" role="alert"></p>
+    <div class="upsell" id="upsell" hidden>
+      Kuota jurnal bulan ini habis. Upgrade ke <a href="index.html#harga">Premium</a> untuk jurnal tanpa batas.
+    </div>
+  </section>
+
+  <section id="list"><p class="small">Memuat...</p></section>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
+<script src="journal.js"></script>
+</body>
+</html>

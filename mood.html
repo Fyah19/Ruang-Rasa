@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="app.css">
+<title>Mood Tracker - Ruang Rasa</title>
+</head>
+<body>
+<header class="nav">
+  <a class="logo" href="dashboard.html">Ruang Rasa</a>
+  <nav class="appnav">
+    <a href="feed.html">Curhat</a>
+    <a href="mood.html">Mood</a>
+    <a href="journal.html">Jurnal</a>
+    <button class="btn ghost" id="logoutBtn" type="button">Keluar</button>
+  </nav>
+</header>
+<div class="helpbar">Butuh bantuan sekarang? Hubungi <strong>119 ext. 8</strong> (layanan kesehatan jiwa).</div>
+<main class="feed-wrap">
+  <h1>Mood Tracker</h1>
+  <p>Bagaimana perasaanmu hari ini? Mengenali mood adalah langkah pertama mengelolanya.</p>
+
+  <section class="compose">
+    <div class="mood-picker" id="picker" role="radiogroup" aria-label="Pilih mood"></div>
+    <label for="note" class="sr">Catatan singkat</label>
+    <input id="note" maxlength="300" placeholder="Catatan singkat (opsional)" style="width:100%;margin-top:1rem">
+    <div class="compose-row">
+      <span></span>
+      <button class="btn" id="saveBtn" type="button">Simpan mood</button>
+    </div>
+    <p id="msg" class="msg" role="alert"></p>
+  </section>
+
+  <section class="panel">
+    <h2 id="chartTitle">Mood 7 hari terakhir</h2>
+    <p class="small" id="avg"></p>
+    <div class="chart" id="chart" aria-label="Grafik mood"></div>
+    <div class="upsell" id="upsell" hidden>
+      Ingin melihat grafik 30 hari dan riwayat penuh? Tersedia di <a href="index.html#harga">Premium</a>.
+    </div>
+  </section>
+
+  <section class="panel">
+    <h2>Catatan terakhir</h2>
+    <div id="list"><p class="small">Memuat...</p></div>
+  </section>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
+<script src="mood.js"></script>
+</body>
+</html>

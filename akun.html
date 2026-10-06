@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="app.css">
+<title>Akun - Ruang Rasa</title>
+</head>
+<body>
+<header class="nav">
+  <a class="logo" href="dashboard.html">Ruang Rasa</a>
+  <nav class="appnav">
+    <a href="feed.html">Curhat</a>
+    <a href="mood.html">Mood</a>
+    <a href="journal.html">Jurnal</a>
+    <a href="akun.html">Akun</a>
+    <button class="btn ghost" id="logoutBtn" type="button">Keluar</button>
+  </nav>
+</header>
+<div class="helpbar">Butuh bantuan sekarang? Hubungi <strong>119 ext. 8</strong> (layanan kesehatan jiwa).</div>
+
+<main class="feed-wrap">
+  <h1>Akun dan Langganan</h1>
+
+  <section class="panel">
+    <h2>Nama samaran</h2>
+    <p class="small">Nama ini yang dilihat orang lain di feed. Emailmu tidak pernah ditampilkan.</p>
+    <div class="reply-form">
+      <input id="nick" maxlength="20" aria-label="Nama samaran">
+      <button class="btn" id="nickBtn" type="button">Simpan</button>
+    </div>
+    <p id="nickMsg" class="msg" role="alert"></p>
+  </section>
+
+  <section class="panel">
+    <h2>Paket kamu: <span id="planName">...</span></h2>
+    <p class="small" id="planInfo"></p>
+  </section>
+
+  <section class="panel">
+    <h2>Beli layanan</h2>
+    <p class="small">Pembayaran lewat QRIS. Setelah memesan, kamu diarahkan ke WhatsApp admin untuk menerima kode QRIS dan mengirim bukti bayar.</p>
+    <div class="products">
+      <article class="product">
+        <h3>Premium 1 bulan</h3>
+        <p class="price-sm">Rp29.000</p>
+        <ul class="perks">
+          <li>Grafik dan riwayat mood 30 hari</li>
+          <li>Jurnal tanpa batas</li>
+          <li>Akses kelas dan diskon event</li>
+        </ul>
+        <button class="btn" data-product="premium_1m" type="button">Beli Premium</button>
+      </article>
+      <article class="product">
+        <h3>Sesi curhat 1-on-1</h3>
+        <p class="price-sm">Rp75.000</p>
+        <ul class="perks">
+          <li>Ngobrol privat lewat WhatsApp</li>
+          <li>Ditemani pendengar terlatih</li>
+          <li>Bukan pengganti psikolog</li>
+        </ul>
+        <button class="btn" data-product="session_1on1" type="button">Pesan sesi</button>
+      </article>
+    </div>
+    <p id="payMsg" class="msg" role="alert"></p>
+
+    <div class="order-box" id="orderBox" hidden>
+      <h3>Pesanan dibuat</h3>
+      <p>Kode pesanan: <strong id="orderCode"></strong> (<span id="orderInfo"></span>)</p>
+      <p class="small">Langkah berikutnya: klik tombol di bawah, kirim pesan ke admin, bayar lewat QRIS, lalu kirim bukti pembayaran. Premium aktif setelah admin mengonfirmasi.</p>
+      <a class="btn big" id="waLink" href="#" target="_blank" rel="noopener">Lanjut ke WhatsApp</a>
+    </div>
+  </section>
+
+  <section class="panel">
+    <h2>Riwayat pesanan</h2>
+    <div id="history"><p class="small">Memuat...</p></div>
+  </section>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
+<script src="akun.js"></script>
+</body>
+</html>

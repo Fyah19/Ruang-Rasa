@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Curhat - Ruang Rasa</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+
+<header class="nav">
+  <a class="logo" href="dashboard.html">Ruang Rasa</a>
+  <nav style="display:flex;gap:.6rem">
+    <a class="btn ghost" href="dashboard.html">Beranda</a>
+    <button class="btn ghost" id="logoutBtn" type="button">Keluar</button>
+  </nav>
+</header>
+
+<div class="helpbar">Butuh bantuan sekarang? Hubungi <strong>119 ext. 8</strong> (layanan kesehatan jiwa).</div>
+
+<main class="feed-wrap">
+  <h1>Ruang Cerita</h1>
+  <p>Tulis apa saja yang kamu rasakan. Teman-teman di sini mendengarkan tanpa menghakimi.</p>
+
+  <section class="compose">
+    <label for="postText" class="sr">Tulis curhatmu</label>
+    <textarea id="postText" maxlength="2000" rows="4" placeholder="Apa yang sedang kamu rasakan hari ini?"></textarea>
+    <div class="compose-row">
+      <span id="count" class="small">0 / 2000</span>
+      <button class="btn" id="postBtn" type="button">Kirim cerita</button>
+    </div>
+    <p id="postMsg" class="msg" role="alert"></p>
+  </section>
+
+  <section id="feed" aria-live="polite"><p class="small">Memuat cerita...</p></section>
+</main>
+
+<dialog id="crisis">
+  <h2>Kamu tidak sendirian</h2>
+  <p>Ceritamu sudah terkirim. Kami peduli padamu. Kalau kamu sedang merasa ingin menyakiti diri sendiri atau mengakhiri hidup, tolong hubungi bantuan sekarang:</p>
+  <ul>
+    <li><strong>119 ext. 8</strong> (layanan kesehatan jiwa Kemenkes)</li>
+    <li>IGD rumah sakit terdekat</li>
+    <li>Orang terdekat yang kamu percaya</li>
+  </ul>
+  <p class="small">Ruang Rasa adalah dukungan sebaya, bukan pengganti tenaga profesional.</p>
+  <button class="btn" id="crisisClose" type="button">Aku mengerti</button>
+</dialog>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
+<script src="feed.js"></script>
+</body>
+</html>
