@@ -22,12 +22,13 @@
 <div class="helpbar">Butuh bantuan sekarang? Hubungi <strong>119 ext. 8</strong> (layanan kesehatan jiwa).</div>
 
 <main class="feed-wrap">
-  <h1>Akun dan Langganan</h1>
+  <h1 class="hicon"><span data-icon="user" data-size="32"></span>Akun dan Langganan</h1>
 
   <section class="panel">
-    <h2>Nama samaran</h2>
+    <h2 class="hicon"><span data-icon="eyeoff" data-size="22"></span>Nama samaran</h2>
     <p class="small">Nama ini yang dilihat orang lain di feed. Emailmu tidak pernah ditampilkan.</p>
     <div class="reply-form">
+      <span id="nickAvatar" class="avatar big" aria-hidden="true"></span>
       <input id="nick" maxlength="20" aria-label="Nama samaran">
       <button class="btn" id="nickBtn" type="button">Simpan</button>
     </div>
@@ -35,17 +36,17 @@
   </section>
 
   <section class="panel">
-    <h2>Paket kamu: <span id="planName">...</span></h2>
+    <h2 class="hicon"><span data-icon="star" data-size="22"></span><span>Paket kamu: <span id="planName">...</span></span></h2>
     <p class="small" id="planInfo"></p>
   </section>
 
   <section class="panel">
-    <h2>Beli layanan</h2>
+    <h2 class="hicon"><span data-icon="heart" data-size="22"></span>Beli layanan</h2>
     <p class="small">Pembayaran lewat QRIS. Setelah memesan, kamu diarahkan ke WhatsApp admin untuk menerima kode QRIS dan mengirim bukti bayar.</p>
     <div class="products">
       <article class="product">
-        <h3>Premium 1 bulan</h3>
-        <p class="price-sm">Rp29.000</p>
+        <h3 class="hicon"><span data-icon="star" data-size="20"></span>Premium 1 bulan</h3>
+        <p class="price-sm">Rp10.000</p>
         <ul class="perks">
           <li>Grafik dan riwayat mood 30 hari</li>
           <li>Jurnal tanpa batas</li>
@@ -54,8 +55,8 @@
         <button class="btn" data-product="premium_1m" type="button">Beli Premium</button>
       </article>
       <article class="product">
-        <h3>Sesi curhat 1-on-1</h3>
-        <p class="price-sm">Rp75.000</p>
+        <h3 class="hicon"><span data-icon="message" data-size="20"></span>Sesi teman curhat 1-on-1</h3>
+        <p class="price-sm">Rp20.000</p>
         <ul class="perks">
           <li>Ngobrol privat lewat WhatsApp</li>
           <li>Ditemani pendengar terlatih</li>
@@ -75,7 +76,7 @@
   </section>
 
   <section class="panel">
-    <h2>Riwayat pesanan</h2>
+    <h2 class="hicon"><span data-icon="calendar" data-size="22"></span>Riwayat pesanan</h2>
     <div id="history"><p class="small">Memuat...</p></div>
   </section>
 </main>
@@ -83,5 +84,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="config.js"></script>
 <script src="akun.js"></script>
+<script src="icons.js"></script>
+<script src="layout.js"></script>
 </body>
 </html>

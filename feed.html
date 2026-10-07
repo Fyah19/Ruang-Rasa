@@ -21,16 +21,25 @@
 <div class="helpbar">Butuh bantuan sekarang? Hubungi <strong>119 ext. 8</strong> (layanan kesehatan jiwa).</div>
 
 <main class="feed-wrap">
-  <h1>Ruang Cerita</h1>
+  <h1 class="hicon"><span data-icon="message" data-size="32"></span>Ruang Cerita</h1>
   <p>Tulis apa saja yang kamu rasakan. Teman-teman di sini mendengarkan tanpa menghakimi.</p>
 
   <section class="compose">
     <label for="postText" class="sr">Tulis curhatmu</label>
     <textarea id="postText" maxlength="2000" rows="4" placeholder="Apa yang sedang kamu rasakan hari ini?"></textarea>
+    <div id="preview" class="preview-img" hidden>
+      <img id="previewImg" alt="Pratinjau foto">
+      <button type="button" class="link-btn" id="removeImg">Hapus foto</button>
+    </div>
+    <input type="file" id="fileInput" accept="image/jpeg,image/png,image/webp" hidden>
     <div class="compose-row">
       <span id="count" class="small">0 / 2000</span>
-      <button class="btn" id="postBtn" type="button">Kirim cerita</button>
+      <div class="group">
+        <button class="btn ghost" id="photoBtn" type="button"><span data-icon="image" data-size="18"></span> Tambah foto</button>
+        <button class="btn" id="postBtn" type="button"><span data-icon="send" data-size="18"></span> Kirim cerita</button>
+      </div>
     </div>
+    <p class="small">Hindari foto yang menampakkan wajah atau identitasmu supaya tetap anonim.</p>
     <p id="postMsg" class="msg" role="alert"></p>
   </section>
 
@@ -52,5 +61,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="config.js"></script>
 <script src="feed.js"></script>
+<script src="icons.js"></script>
+<script src="layout.js"></script>
 </body>
 </html>

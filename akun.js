@@ -1,7 +1,7 @@
 const WA_NUMBER = '6289630970671';
 const PRODUCTS = {
   premium_1m: { name: 'Premium 1 bulan' },
-  session_1on1: { name: 'Sesi curhat 1-on-1' }
+  session_1on1: { name: 'Sesi teman curhat 1-on-1' }
 };
 const STATUS = { paid: 'Lunas', pending: 'Menunggu pembayaran', cancelled: 'Dibatalkan' };
 
@@ -31,6 +31,7 @@ async function loadProfile() {
   if (!p) return;
   nickname = p.nickname;
   $('nick').value = p.nickname;
+  $('nickAvatar').textContent = fruitEmoji(p.nickname);
   const prem = p.plan === 'premium' && (!p.premium_until || new Date(p.premium_until) > new Date());
   $('planName').textContent = prem ? 'Premium' : 'Free';
   $('planInfo').textContent = prem && p.premium_until
@@ -104,6 +105,7 @@ $('nickBtn').addEventListener('click', async () => {
   const { error } = await db.from('profiles').update({ nickname: nick }).eq('id', me);
   if (error) { msg.textContent = 'Gagal menyimpan: ' + error.message; return; }
   nickname = nick;
+  $('nickAvatar').textContent = fruitEmoji(nick);
   msg.className = 'msg ok';
   msg.textContent = 'Nama samaran diperbarui.';
 });

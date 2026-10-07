@@ -1,6 +1,6 @@
 let rows = [], premiumActive = 0;
 const $ = (id) => document.getElementById(id);
-const NAMES = { premium_1m: 'Premium 1 bulan', session_1on1: 'Sesi curhat 1-on-1' };
+const NAMES = { premium_1m: 'Premium 1 bulan', session_1on1: 'Sesi teman curhat 1-on-1' };
 const STATUS = { paid: 'Lunas', pending: 'Menunggu', cancelled: 'Dibatalkan' };
 const rp = (n) => 'Rp' + Number(n).toLocaleString('id-ID');
 const fmtDate = (iso) => new Date(iso).toLocaleString('id-ID', { dateStyle: 'medium', timeStyle: 'short' });
@@ -31,16 +31,19 @@ function renderStats() {
   const total = paid.reduce((s, r) => s + r.amount, 0);
   const pending = rows.filter((r) => r.status === 'pending').length;
   const cards = [
-    ['Total pendapatan', rp(total)],
-    ['Transaksi lunas', paid.length],
-    ['Menunggu konfirmasi', pending],
-    ['Premium aktif', premiumActive]
+    ['Total pendapatan', rp(total), 'trend'],
+    ['Transaksi lunas', paid.length, 'check'],
+    ['Menunggu konfirmasi', pending, 'timer'],
+    ['Premium aktif', premiumActive, 'star']
   ];
-  $('stats').replaceChildren(...cards.map(([label, val]) => {
+  $('stats').replaceChildren(...cards.map(([label, val, ic]) => {
     const c = el('div', 'stat');
-    c.append(el('span', 'small', label), el('strong', '', String(val)));
+    const i = el('span', 'ico');
+    i.dataset.icon = ic;
+    c.append(i, el('span', 'small', label), el('strong', '', String(val)));
     return c;
   }));
+  paintIcons();
 
   const per = {};
   paid.forEach((r) => { per[r.product] = (per[r.product] || 0) + r.amount; });

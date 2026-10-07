@@ -18,26 +18,26 @@
 </header>
 
 <main class="admin-wrap">
-  <h1>Laporan Keuangan</h1>
+  <h1 class="hicon"><span data-icon="chart" data-size="32"></span>Laporan Keuangan</h1>
   <p class="small">Halaman ini hanya untuk admin.</p>
 
   <section class="stats" id="stats"></section>
 
   <section class="panel">
-    <h2>Pendapatan per bulan</h2>
+    <h2 class="hicon"><span data-icon="trend" data-size="22"></span>Pendapatan per bulan</h2>
     <div class="chart" id="chart" aria-label="Grafik pendapatan per bulan"></div>
     <div id="byProduct" class="small"></div>
   </section>
 
   <section class="panel">
-    <h2>Menunggu konfirmasi</h2>
+    <h2 class="hicon"><span data-icon="timer" data-size="22"></span>Menunggu konfirmasi</h2>
     <p class="small">Cocokkan kode pesanan dan bukti QRIS dari WhatsApp, lalu konfirmasi setelah uang masuk.</p>
     <div id="pending"><p class="small">Memuat...</p></div>
   </section>
 
   <section class="panel">
     <div class="compose-row" style="margin-top:0">
-      <h2>Semua transaksi</h2>
+      <h2 class="hicon"><span data-icon="list" data-size="22"></span>Semua transaksi</h2>
       <button class="btn ghost" id="csvBtn" type="button">Export CSV</button>
     </div>
     <div class="table-wrap">
@@ -52,5 +52,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="config.js"></script>
 <script src="admin.js"></script>
+<script src="icons.js"></script>
+<script src="layout.js"></script>
 </body>
 </html>

@@ -17,7 +17,7 @@ async function init() {
     return;
   }
 
-  document.getElementById('hello').textContent = 'Halo, ' + profile.nickname;
+  document.getElementById('hello').textContent = 'Halo, ' + fruitEmoji(profile.nickname) + ' ' + profile.nickname;
   document.getElementById('planBadge').textContent = (profile.plan === 'premium' && (!profile.premium_until || new Date(profile.premium_until) > new Date())) ? 'Premium' : 'Free';
   if (profile.is_admin) {
     const a = document.createElement('a');
@@ -35,3 +35,13 @@ document.getElementById('logoutBtn').addEventListener('click', async () => {
 });
 
 init();
+
+// Kalimat penyemangat harian
+const QUOTES = [
+  'Tidak apa-apa kalau hari ini belum baik-baik saja. Kamu boleh berhenti sejenak.',
+  'Perasaan yang diceritakan biasanya terasa lebih ringan.',
+  'Langkah kecil hari ini tetap langkah maju.',
+  'Kamu tidak harus kuat sendirian.',
+  'Istirahat bukan tanda menyerah, tapi bagian dari proses.'
+];
+document.getElementById('quote').textContent = QUOTES[new Date().getDate() % QUOTES.length];

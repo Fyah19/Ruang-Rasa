@@ -15,12 +15,13 @@
     <a href="feed.html">Curhat</a>
     <a href="mood.html">Mood</a>
     <a href="journal.html">Jurnal</a>
+    <a href="akun.html">Akun</a>
     <button class="btn ghost" id="logoutBtn" type="button">Keluar</button>
   </nav>
 </header>
 <div class="helpbar">Butuh bantuan sekarang? Hubungi <strong>119 ext. 8</strong> (layanan kesehatan jiwa).</div>
 <main class="feed-wrap">
-  <h1>Mood Tracker</h1>
+  <h1 class="hicon"><span data-icon="smile" data-size="32"></span>Mood Tracker</h1>
   <p>Bagaimana perasaanmu hari ini? Mengenali mood adalah langkah pertama mengelolanya.</p>
 
   <section class="compose">
@@ -29,27 +30,29 @@
     <input id="note" maxlength="300" placeholder="Catatan singkat (opsional)" style="width:100%;margin-top:1rem">
     <div class="compose-row">
       <span></span>
-      <button class="btn" id="saveBtn" type="button">Simpan mood</button>
+      <button class="btn" id="saveBtn" type="button"><span data-icon="check" data-size="18"></span> Simpan mood</button>
     </div>
     <p id="msg" class="msg" role="alert"></p>
   </section>
 
   <section class="panel">
-    <h2 id="chartTitle">Mood 7 hari terakhir</h2>
+    <h2 class="hicon"><span data-icon="chart" data-size="22"></span><span id="chartTitle">Mood 7 hari terakhir</span></h2>
     <p class="small" id="avg"></p>
     <div class="chart" id="chart" aria-label="Grafik mood"></div>
     <div class="upsell" id="upsell" hidden>
-      Ingin melihat grafik 30 hari dan riwayat penuh? Tersedia di <a href="index.html#harga">Premium</a>.
+      Ingin melihat grafik 30 hari dan riwayat penuh? Tersedia di <a href="akun.html">Premium</a>.
     </div>
   </section>
 
   <section class="panel">
-    <h2>Catatan terakhir</h2>
+    <h2 class="hicon"><span data-icon="calendar" data-size="22"></span>Catatan terakhir</h2>
     <div id="list"><p class="small">Memuat...</p></div>
   </section>
 </main>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="config.js"></script>
 <script src="mood.js"></script>
+<script src="icons.js"></script>
+<script src="layout.js"></script>
 </body>
 </html>

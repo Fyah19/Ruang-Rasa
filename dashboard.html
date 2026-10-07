@@ -9,31 +9,54 @@
 <link rel="stylesheet" href="app.css">
 </head>
 <body>
-
 <header class="nav">
   <a class="logo" href="dashboard.html">Ruang Rasa</a>
-  <nav style="display:flex">
+  <nav class="appnav">
+    <a href="feed.html">Curhat</a>
+    <a href="mood.html">Mood</a>
+    <a href="journal.html">Jurnal</a>
+    <a href="akun.html">Akun</a>
     <span id="planBadge" class="badge">Free</span>
     <button class="btn ghost" id="logoutBtn" type="button">Keluar</button>
   </nav>
 </header>
+<div class="helpbar">Butuh bantuan sekarang? Hubungi <strong>119 ext. 8</strong> (layanan kesehatan jiwa).</div>
 
 <main class="dash">
-  <h1 id="hello">Halo...</h1>
-  <p>Ini ruangmu. Fitur lain akan ditambahkan satu per satu.</p>
+  <section class="dash-hero">
+    <h1 id="hello">Halo...</h1>
+    <p id="quote"></p>
+    <a class="btn" href="feed.html">Tulis cerita</a>
+    <a class="btn ghost" href="mood.html">Catat mood hari ini</a>
+  </section>
 
-  <div class="grid">
-    <a class="card c1" href="feed.html" style="text-decoration:none"><h3>Curhat dan Feed</h3><p>Tulis cerita dan beri dukungan.</p></a>
-    <a class="card c2" href="mood.html" style="text-decoration:none"><h3>Mood Tracker</h3><p>Catat dan lihat perasaanmu.</p></a>
-    <a class="card c3" href="journal.html" style="text-decoration:none"><h3>Jurnal</h3><p>Tulis pikiran dan perasaanmu.</p></a>
-    <a class="card c4" href="akun.html" style="text-decoration:none"><h3>Akun dan Langganan</h3><p>Kelola paket dan upgrade Premium.</p></a>
+  <h2 class="hicon"><span data-icon="arrow" data-size="22"></span>Mulai dari sini</h2>
+  <div class="quick">
+    <a class="card c1" href="feed.html"><span class="ico" data-icon="message"></span><h3>Curhat dan Feed</h3><p>Tulis cerita dan beri dukungan.</p></a>
+    <a class="card c2" href="mood.html"><span class="ico" data-icon="smile"></span><h3>Mood Tracker</h3><p>Catat dan lihat perasaanmu.</p></a>
+    <a class="card c3" href="journal.html"><span class="ico" data-icon="book"></span><h3>Jurnal</h3><p>Tuangkan pikiran secara pribadi.</p></a>
+    <a class="card c4" href="akun.html"><span class="ico" data-icon="star"></span><h3>Akun dan Langganan</h3><p>Kelola paket dan Premium.</p></a>
   </div>
 
-  <p class="small">Butuh bantuan sekarang? Hubungi 119 ext. 8 (layanan kesehatan jiwa).</p>
+  <h2 class="hicon"><span data-icon="timer" data-size="22"></span>Segera hadir</h2>
+  <p class="small">Fitur-fitur ini sedang kami siapkan.</p>
+  <div class="quick">
+    <article class="card soon"><span class="ico" data-icon="users"></span><span class="tag soon">Segera</span><h3>Community Circle</h3><p>Grup kecil berdasarkan minat.</p></article>
+    <article class="card soon"><span class="ico" data-icon="timer"></span><span class="tag soon">Segera</span><h3>Focus Timer</h3><p>Fokus belajar tanpa kewalahan.</p></article>
+    <article class="card soon"><span class="ico" data-icon="list"></span><span class="tag soon">Segera</span><h3>To-do dan Jadwal</h3><p>Atur tugas dan harimu.</p></article>
+    <article class="card soon"><span class="ico" data-icon="cap"></span><span class="tag soon">Segera</span><h3>Kelas dan Event</h3><p>Belajar dan bertemu langsung.</p></article>
+  </div>
+
+  <div class="helpcard">
+    <span class="ico" data-icon="phone"></span>
+    <div><strong>Sedang berat dan butuh bicara sekarang?</strong><p class="small" style="margin:0">Hubungi layanan kesehatan jiwa di 119 ext. 8. Kamu tidak sendirian.</p></div>
+  </div>
 </main>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="config.js"></script>
 <script src="dashboard.js"></script>
+<script src="icons.js"></script>
+<script src="layout.js"></script>
 </body>
 </html>

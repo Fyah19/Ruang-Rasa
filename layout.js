@@ -1,10 +1,14 @@
-// Menambahkan ikon logo dan footer ke semua halaman
+// Menambahkan logo, favicon, dan footer ke semua halaman
 const FOOTER = `
 <footer class="site-footer">
   <div class="foot-grid">
     <div>
-      <div class="foot-brand"><span data-icon="logo" data-size="26"></span> Ruang Rasa</div>
+      <div class="foot-brand"><img src="logo-icon.png" alt="" width="40" height="38"> Ruang Rasa</div>
       <p>Ruang digital untuk bercerita, berkembang, dan menjalani hidup lebih seimbang. Cerita, Tumbuh, Bersama.</p>
+      <div class="socials">
+        <a href="https://www.instagram.com/ruangrasa.my.id" target="_blank" rel="noopener"><span data-icon="instagram" data-size="20"></span> @ruangrasa.my.id</a>
+        <a href="https://www.tiktok.com/@ruangrasa.my.id" target="_blank" rel="noopener"><span data-icon="tiktok" data-size="20"></span> @ruangrasa.my.id</a>
+      </div>
     </div>
     <div>
       <h4>Jelajahi</h4>
@@ -33,7 +37,19 @@ const FOOTER = `
 </footer>`;
 
 document.addEventListener('DOMContentLoaded', () => {
-  document.querySelectorAll('.logo').forEach((l) => { l.dataset.icon = 'logo'; l.dataset.size = 26; });
+  if (!document.querySelector('link[rel="icon"]')) {
+    const f = document.createElement('link');
+    f.rel = 'icon';
+    f.href = 'favicon.png';
+    document.head.append(f);
+  }
+  const NAVICONS = { 'feed.html': 'message', 'mood.html': 'smile', 'journal.html': 'book', 'akun.html': 'user' };
+  document.querySelectorAll('.appnav a').forEach((a) => {
+    const n = NAVICONS[a.getAttribute('href')];
+    if (n) { a.dataset.icon = n; a.dataset.size = 18; }
+  });
+  document.querySelectorAll('.logo').forEach((l) =>
+    l.insertAdjacentHTML('afterbegin', '<img src="logo-icon.png" alt="" width="38" height="35">'));
   if (!document.querySelector('footer')) document.body.insertAdjacentHTML('beforeend', FOOTER);
   paintIcons();
 });

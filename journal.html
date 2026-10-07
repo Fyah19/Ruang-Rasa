@@ -15,12 +15,13 @@
     <a href="feed.html">Curhat</a>
     <a href="mood.html">Mood</a>
     <a href="journal.html">Jurnal</a>
+    <a href="akun.html">Akun</a>
     <button class="btn ghost" id="logoutBtn" type="button">Keluar</button>
   </nav>
 </header>
 <div class="helpbar">Butuh bantuan sekarang? Hubungi <strong>119 ext. 8</strong> (layanan kesehatan jiwa).</div>
 <main class="feed-wrap">
-  <h1>Jurnal</h1>
+  <h1 class="hicon"><span data-icon="book" data-size="32"></span>Jurnal</h1>
   <p>Tuangkan pikiranmu. Jurnal bersifat pribadi, hanya kamu yang bisa membacanya.</p>
 
   <section class="compose">
@@ -30,11 +31,11 @@
     <textarea id="jContent" rows="6" maxlength="5000" placeholder="Hari ini aku merasa..."></textarea>
     <div class="compose-row">
       <span id="quota" class="small"></span>
-      <button class="btn" id="saveBtn" type="button">Simpan jurnal</button>
+      <button class="btn" id="saveBtn" type="button"><span data-icon="check" data-size="18"></span> Simpan jurnal</button>
     </div>
     <p id="msg" class="msg" role="alert"></p>
     <div class="upsell" id="upsell" hidden>
-      Kuota jurnal bulan ini habis. Upgrade ke <a href="index.html#harga">Premium</a> untuk jurnal tanpa batas.
+      Kuota jurnal bulan ini habis. Upgrade ke <a href="akun.html">Premium</a> untuk jurnal tanpa batas.
     </div>
   </section>
 
@@ -43,5 +44,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="config.js"></script>
 <script src="journal.js"></script>
+<script src="icons.js"></script>
+<script src="layout.js"></script>
 </body>
 </html>
