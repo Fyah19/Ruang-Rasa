@@ -16,6 +16,7 @@ const FOOTER = `
       <a href="index.html#harga">Harga</a>
       <a href="index.html#roadmap">Roadmap</a>
       <a href="index.html#faq">FAQ</a>
+      <a href="review.html">Ulasan</a>
     </div>
     <div>
       <h4>Ruangmu</h4>

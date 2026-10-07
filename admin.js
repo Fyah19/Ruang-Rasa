@@ -170,4 +170,127 @@ $('logoutBtn').addEventListener('click', async () => {
   const { data: p } = await db.from('profiles').select('is_admin').eq('id', session.user.id).single();
   if (!p || !p.is_admin) { location.href = 'dashboard.html'; return; }
   load();
+  loadReviews();
 })();
+
+// ===== Ulasan dan bukti transaksi =====
+const rvPub = (p) => db.storage.from('review-images').getPublicUrl(p).data.publicUrl;
+
+function rvCompress(file) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    const url = URL.createObjectURL(file);
+    img.onload = () => {
+      const scale = Math.min(1, 1600 / Math.max(img.width, img.height));
+      const c = document.createElement('canvas');
+      c.width = Math.round(img.width * scale);
+      c.height = Math.round(img.height * scale);
+      c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+      URL.revokeObjectURL(url);
+      c.toBlob((b) => (b ? resolve(b) : reject(new Error('Gambar gagal diproses'))), 'image/jpeg', 0.85);
+    };
+    img.onerror = () => reject(new Error('File bukan gambar yang valid'));
+    img.src = url;
+  });
+}
+
+async function rvUpload(file) {
+  if (!file) return null;
+  const blob = await rvCompress(file);
+  const path = 'wa/' + crypto.randomUUID() + '.jpg';
+  const { error } = await db.storage.from('review-images').upload(path, blob, { contentType: 'image/jpeg' });
+  if (error) throw error;
+  return path;
+}
+
+async function rvRemove(paths) {
+  const list = paths.filter(Boolean);
+  if (list.length) await db.storage.from('review-images').remove(list);
+}
+
+$('rvSave').addEventListener('click', async () => {
+  const msg = $('rvMsg');
+  msg.className = 'msg';
+  const name = $('rvName').value.trim();
+  const text = $('rvText').value.trim();
+  const chatFile = $('rvChat').files[0];
+  const proofFile = $('rvProof').files[0];
+  if (!name) { msg.textContent = 'Isi nama tampilan.'; return; }
+  if (!text && !chatFile && !proofFile) { msg.textContent = 'Isi testimoni atau unggah minimal satu gambar.'; return; }
+  if (!$('rvConsent').checked) { msg.textContent = 'Centang persetujuan pelanggan dan penyamaran data pribadi.'; return; }
+
+  $('rvSave').disabled = true;
+  let chat = null, proof = null;
+  try {
+    chat = await rvUpload(chatFile);
+    proof = await rvUpload(proofFile);
+  } catch (e) {
+    await rvRemove([chat, proof]);
+    $('rvSave').disabled = false;
+    msg.textContent = 'Gagal mengunggah gambar: ' + e.message;
+    return;
+  }
+  const { error } = await db.from('reviews').insert({
+    source: 'whatsapp', display_name: name,
+    order_id: $('rvOrder').value.trim() || null,
+    rating: Number($('rvRating').value) || null,
+    content: text || null, chat_path: chat, proof_path: proof
+  });
+  $('rvSave').disabled = false;
+  if (error) { await rvRemove([chat, proof]); msg.textContent = 'Gagal menyimpan: ' + error.message; return; }
+
+  msg.className = 'msg ok';
+  msg.textContent = 'Ulasan tersimpan dan tampil di halaman Ulasan.';
+  ['rvName', 'rvOrder', 'rvText', 'rvChat', 'rvProof'].forEach((id) => ($(id).value = ''));
+  $('rvRating').value = '';
+  $('rvConsent').checked = false;
+  loadReviews();
+});
+
+async function loadReviews() {
+  const { data, error } = await db.from('reviews')
+    .select('id, source, display_name, rating, content, chat_path, proof_path, published, created_at')
+    .order('created_at', { ascending: false });
+  const box = $('rvList');
+  box.replaceChildren();
+  if (error) { box.append(el('p', 'msg', 'Gagal memuat ulasan: ' + error.message)); return; }
+  if (!data.length) { box.append(el('p', 'small', 'Belum ada ulasan.')); return; }
+
+  data.forEach((r) => {
+    const row = el('div', 'entry');
+    const body = el('div', 'entry-body');
+    body.append(el('strong', '', r.display_name));
+    body.append(el('span', 'small', ' \u00b7 ' + (r.source === 'whatsapp' ? 'WhatsApp' : 'Sistem') +
+      ' \u00b7 ' + (r.rating ? r.rating + '/5' : 'tanpa rating') +
+      ' \u00b7 ' + (r.published ? 'Tampil' : 'Disembunyikan')));
+    if (r.content) body.append(el('p', 'small', r.content));
+    [['Lihat chat', r.chat_path], ['Lihat bukti bayar', r.proof_path]].forEach(([label, path]) => {
+      if (!path) return;
+      const a = el('a', 'small', label);
+      a.href = rvPub(path);
+      a.target = '_blank';
+      a.rel = 'noopener';
+      a.style.marginRight = '.8rem';
+      body.append(a);
+    });
+    row.append(body);
+
+    const toggle = el('button', 'link-btn', r.published ? 'Sembunyikan' : 'Tampilkan');
+    toggle.type = 'button';
+    toggle.style.color = 'var(--indigo)';
+    toggle.onclick = async () => {
+      await db.from('reviews').update({ published: !r.published }).eq('id', r.id);
+      loadReviews();
+    };
+    const del = el('button', 'link-btn', 'Hapus');
+    del.type = 'button';
+    del.onclick = async () => {
+      if (!confirm('Hapus ulasan dari ' + r.display_name + '?')) return;
+      await rvRemove([r.chat_path, r.proof_path]);
+      await db.from('reviews').delete().eq('id', r.id);
+      loadReviews();
+    };
+    row.append(toggle, del);
+    box.append(row);
+  });
+}

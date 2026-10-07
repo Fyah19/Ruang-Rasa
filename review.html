@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="favicon.png">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="app.css">
+<title>Ulasan - Ruang Rasa</title>
+</head>
+<body>
+<header class="nav">
+  <a class="logo" href="index.html">Ruang Rasa</a>
+  <nav class="appnav">
+    <a href="index.html">Beranda</a>
+    <a href="review.html">Ulasan</a>
+    <a class="btn" href="auth.html">Masuk</a>
+  </nav>
+</header>
+
+<main class="admin-wrap">
+  <h1 class="hicon"><span data-icon="star" data-size="32"></span>Ulasan Pengguna</h1>
+  <p>Cerita dan penilaian dari orang-orang yang sudah mencoba Ruang Rasa, lengkap dengan bukti transaksinya.</p>
+
+  <section class="stats" id="sum"></section>
+
+  <section class="panel">
+    <h2 class="hicon"><span data-icon="phone" data-size="22"></span>Transaksi lewat WhatsApp</h2>
+    <p class="small">Setiap kartu menampilkan screenshot chat testimoni dan bukti pembayaran. Klik gambar untuk memperbesar.</p>
+    <div id="wa" class="rev-grid"><p class="small">Memuat...</p></div>
+  </section>
+
+  <section class="panel">
+    <h2 class="hicon"><span data-icon="check" data-size="22"></span>Transaksi lewat sistem</h2>
+    <p class="small">Ulasan dan rating aplikasi/web dari pembeli yang transaksinya tercatat dan lunas di sistem.</p>
+    <div id="sys" class="rev-grid"><p class="small">Memuat...</p></div>
+  </section>
+
+  <section class="cta-band">
+    <h2>Sudah mencoba Ruang Rasa?</h2>
+    <p>Setelah transaksimu lunas, kamu bisa memberi rating dan ulasan di halaman Akun.</p>
+    <a class="btn big" href="akun.html">Beri ulasan</a>
+  </section>
+</main>
+
+<dialog id="lightbox">
+  <img id="lbImg" alt="">
+  <button class="btn" id="lbClose" type="button">Tutup</button>
+</dialog>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
+<script src="review.js"></script>
+<script src="icons.js"></script>
+<script src="layout.js"></script>
+</body>
+</html>

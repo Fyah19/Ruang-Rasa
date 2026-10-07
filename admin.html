@@ -47,6 +47,27 @@
       </table>
     </div>
   </section>
+  <section class="panel">
+    <h2 class="hicon"><span data-icon="star" data-size="22"></span>Ulasan dan bukti transaksi</h2>
+    <p class="small">Tambahkan testimoni dari transaksi lewat WhatsApp. Ulasan dari transaksi sistem masuk otomatis saat pembeli mengirimnya.</p>
+    <div class="rv-form">
+      <input id="rvName" maxlength="40" placeholder="Nama tampilan (contoh: Rani, mahasiswa)" aria-label="Nama tampilan">
+      <input id="rvOrder" maxlength="20" placeholder="Kode pesanan (opsional)" aria-label="Kode pesanan">
+      <select id="rvRating" aria-label="Rating">
+        <option value="">Rating (opsional)</option>
+        <option value="5">5 bintang</option><option value="4">4 bintang</option><option value="3">3 bintang</option>
+        <option value="2">2 bintang</option><option value="1">1 bintang</option>
+      </select>
+      <textarea id="rvText" rows="3" maxlength="600" placeholder="Isi testimoni singkat" aria-label="Isi testimoni"></textarea>
+      <label>Screenshot chat testimoni <input type="file" id="rvChat" accept="image/jpeg,image/png,image/webp"></label>
+      <label>Bukti pembayaran <input type="file" id="rvProof" accept="image/jpeg,image/png,image/webp"></label>
+      <label class="check"><input type="checkbox" id="rvConsent"> Pelanggan setuju testimoninya ditampilkan, dan nomor HP, nama lengkap, serta data rekening sudah disamarkan di gambar.</label>
+      <button class="btn" id="rvSave" type="button">Simpan ulasan</button>
+      <p id="rvMsg" class="msg" role="alert"></p>
+    </div>
+    <h3 style="margin-top:1.2rem">Semua ulasan</h3>
+    <div id="rvList"></div>
+  </section>
 </main>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>

@@ -48,6 +48,8 @@ async function loadHistory() {
   const box = $('history');
   box.replaceChildren();
   if (!data || !data.length) { box.append(el('p', 'small', 'Belum ada pesanan.')); return; }
+  const { data: rv } = await db.from('reviews').select('order_id').eq('user_id', me);
+  const reviewed = new Set((rv || []).map((x) => x.order_id));
   data.forEach((r) => {
     const row = el('div', 'entry');
     const body = el('div', 'entry-body');
@@ -65,6 +67,17 @@ async function loadHistory() {
       a.style.textDecoration = 'underline';
       a.style.color = 'var(--indigo)';
       row.append(a);
+    }
+    if (r.status === 'paid') {
+      if (reviewed.has(r.order_id)) {
+        row.append(el('span', 'small', 'Ulasan terkirim'));
+      } else {
+        const b = el('button', 'link-btn', 'Beri ulasan');
+        b.type = 'button';
+        b.style.color = 'var(--indigo)';
+        b.onclick = () => openReview(r.order_id);
+        row.append(b);
+      }
     }
     box.append(row);
   });
@@ -122,3 +135,49 @@ $('logoutBtn').addEventListener('click', async () => {
   await loadProfile();
   loadHistory();
 })();
+
+// ===== Ulasan dan rating =====
+let reviewOrder = null, reviewRating = 0;
+
+function paintStars() {
+  document.querySelectorAll('#starInput button').forEach((b, i) => b.classList.toggle('on', i < reviewRating));
+}
+for (let i = 1; i <= 5; i++) {
+  const b = el('button', 'star-btn', '\u2605');
+  b.type = 'button';
+  b.setAttribute('aria-label', i + ' bintang');
+  b.onclick = () => { reviewRating = i; paintStars(); };
+  $('starInput').append(b);
+}
+
+function openReview(orderId) {
+  reviewOrder = orderId;
+  reviewRating = 0;
+  paintStars();
+  $('reviewText').value = '';
+  $('reviewMsg').textContent = '';
+  $('reviewFor').textContent = 'Pesanan ' + orderId + '. Beri rating untuk aplikasi/web Ruang Rasa.';
+  $('reviewDlg').showModal();
+}
+
+$('reviewCancel').onclick = () => $('reviewDlg').close();
+$('reviewSend').onclick = async () => {
+  const msg = $('reviewMsg');
+  msg.className = 'msg';
+  if (!reviewRating) { msg.textContent = 'Pilih rating bintang dulu.'; return; }
+  $('reviewSend').disabled = true;
+  const { error } = await db.rpc('submit_review', {
+    p_order: reviewOrder, p_rating: reviewRating, p_content: $('reviewText').value.trim()
+  });
+  $('reviewSend').disabled = false;
+  if (error) {
+    msg.textContent = error.message.includes('duplicate')
+      ? 'Kamu sudah memberi ulasan untuk pesanan ini.'
+      : 'Gagal mengirim: ' + error.message;
+    return;
+  }
+  $('reviewDlg').close();
+  $('payMsg').className = 'msg ok';
+  $('payMsg').textContent = 'Terima kasih! Ulasanmu sudah tampil di halaman Ulasan.';
+  loadHistory();
+};

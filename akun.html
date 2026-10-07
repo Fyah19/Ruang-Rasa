@@ -81,6 +81,19 @@
   </section>
 </main>
 
+<dialog id="reviewDlg">
+  <h2>Beri ulasan</h2>
+  <p class="small" id="reviewFor"></p>
+  <div class="star-input" id="starInput" role="group" aria-label="Rating"></div>
+  <label for="reviewText" class="sr">Ulasan</label>
+  <textarea id="reviewText" rows="4" maxlength="600" placeholder="Ceritakan pengalamanmu memakai Ruang Rasa..."></textarea>
+  <p id="reviewMsg" class="msg" role="alert"></p>
+  <div class="pending-actions">
+    <button class="btn" id="reviewSend" type="button">Kirim ulasan</button>
+    <button class="btn ghost" id="reviewCancel" type="button">Batal</button>
+  </div>
+</dialog>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="config.js"></script>
 <script src="akun.js"></script>
