@@ -27,7 +27,7 @@ function waLink(orderId, amount, product) {
 }
 
 async function loadProfile() {
-  const { data: p } = await db.from('profiles').select('nickname, plan, premium_until').eq('id', me).single();
+  const { data: p } = await db.from('profiles').select('nickname, plan, premium_until, free_posts_used').eq('id', me).single();
   if (!p) return;
   nickname = p.nickname;
   $('nick').value = p.nickname;
@@ -36,7 +36,7 @@ async function loadProfile() {
   $('planName').textContent = prem ? 'Premium' : 'Free';
   $('planInfo').textContent = prem && p.premium_until
     ? 'Aktif sampai ' + new Date(p.premium_until).toLocaleDateString('id-ID', { dateStyle: 'long' })
-    : 'Curhat dan dukungan teman selalu gratis. Upgrade untuk fitur tambahan.';
+    : 'Paket Free: ' + Math.max(0, 3 - (p.free_posts_used || 0)) + ' dari 3 curhat gratis tersisa. Upgrade untuk akses penuh.';
 }
 
 async function loadHistory() {

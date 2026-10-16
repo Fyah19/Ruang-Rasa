@@ -248,3 +248,7 @@ dialog textarea{margin-top:.4rem}
   .nav nav.appnav{display:flex;flex-direction:row;flex-wrap:wrap;width:auto;padding:0;gap:.6rem}
   .rev-imgs{grid-template-columns:1fr}
 }
+
+/* kunci Premium */
+[hidden]{display:none!important}
+.btn:disabled{opacity:.5;cursor:not-allowed}

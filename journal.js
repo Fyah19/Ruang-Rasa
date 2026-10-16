@@ -86,7 +86,14 @@ $('logoutBtn').addEventListener('click', async () => {
   const { data: { session } } = await db.auth.getSession();
   if (!session) { location.href = 'auth.html'; return; }
   me = session.user.id;
-  const { data: p } = await db.from('profiles').select('plan').eq('id', me).single();
-  if (p) plan = p.plan;
+  const { data: p } = await db.from('profiles').select('plan, premium_until').eq('id', me).single();
+  if (p) plan = (p.plan === 'premium' && (!p.premium_until || new Date(p.premium_until) > new Date())) ? 'premium' : 'free';
+  if (plan !== 'premium') { gate(); return; }
   load();
 })();
+
+// Fitur ini khusus Premium: sembunyikan isi, tampilkan ajakan berlangganan
+function gate() {
+  document.querySelectorAll('.feed-wrap > section').forEach((s) => (s.hidden = true));
+  $('lock').hidden = false;
+}

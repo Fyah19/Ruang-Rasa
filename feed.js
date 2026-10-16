@@ -1,4 +1,6 @@
 let me = null;
+let premium = false, freeUsed = 0;
+const FREE_LIMIT = 3;
 let lastPost = 0;
 const openPosts = new Set();
 const $ = (id) => document.getElementById(id);
@@ -90,12 +92,13 @@ function renderPost(p, urls = {}) {
   const hug = el('button', 'chip');
   hug.type = 'button';
   const paintHug = () => {
-    hug.textContent = '🤗 Peluk virtual · ' + count;
+    hug.textContent = (premium ? '🤗 ' : '🔒 ') + 'Peluk virtual · ' + count;
     hug.classList.toggle('on', reacted);
     hug.setAttribute('aria-pressed', reacted);
   };
   paintHug();
   hug.onclick = async () => {
+    if (!premium) { showUpsell('Peluk virtual khusus pelanggan Premium.'); return; }
     hug.disabled = true;
     const { error } = reacted
       ? await db.from('reactions').delete().match({ post_id: p.id, user_id: me })
@@ -150,7 +153,8 @@ function renderPost(p, urls = {}) {
     loadFeed();
   };
   form.append(input, send);
-  box.append(form);
+  if (premium) box.append(form);
+  else box.append(el('p', 'small', 'Membalas cerita khusus pelanggan Premium. Lihat paket di halaman Akun.'));
   card.append(box);
 
   return card;
@@ -189,9 +193,21 @@ $('postBtn').addEventListener('click', async () => {
   $('postBtn').disabled = false;
   if (error && imagePath) await db.storage.from('post-images').remove([imagePath]);
 
-  if (error) { msg.textContent = 'Gagal mengirim: ' + error.message; return; }
+  if (error) {
+    const m = error.message;
+    if (m.includes('POST_LIMIT')) {
+      freeUsed = FREE_LIMIT;
+      applyPlan();
+      showUpsell('Kuota ' + FREE_LIMIT + ' curhat gratis sudah habis. Berlangganan Premium untuk curhat tanpa batas.');
+      return;
+    }
+    if (m.includes('PREMIUM_ONLY_PHOTO')) { clearPick(); showUpsell('Posting foto khusus pelanggan Premium.'); return; }
+    msg.textContent = 'Gagal mengirim: ' + m;
+    return;
+  }
 
   lastPost = Date.now();
+  if (!premium) { freeUsed++; applyPlan(); }
   $('postText').value = '';
   clearPick();
   $('count').textContent = '0 / 2000';
@@ -228,7 +244,7 @@ function clearPick() {
   $('preview').hidden = true;
 }
 
-$('photoBtn').onclick = () => $('fileInput').click();
+$('photoBtn').onclick = () => (premium ? $('fileInput').click() : showUpsell('Posting foto khusus pelanggan Premium.'));
 $('removeImg').onclick = clearPick;
 $('fileInput').addEventListener('change', (e) => {
   const f = e.target.files[0];
@@ -243,6 +259,27 @@ $('fileInput').addEventListener('change', (e) => {
   $('preview').hidden = false;
 });
 
+function showUpsell(text) {
+  $('upsellText').textContent = text;
+  $('upsellDlg').showModal();
+}
+$('upsellClose').onclick = () => $('upsellDlg').close();
+
+function applyPlan() {
+  const q = $('quota');
+  if (premium) {
+    q.textContent = 'Premium: curhat tanpa batas';
+    $('upsellBox').hidden = true;
+    return;
+  }
+  const left = Math.max(0, FREE_LIMIT - freeUsed);
+  q.textContent = 'Curhat gratis tersisa: ' + left + ' dari ' + FREE_LIMIT;
+  $('upsellBox').hidden = left > 0;
+  $('postText').disabled = left === 0;
+  $('postBtn').disabled = left === 0;
+  if (!$('photoBtn').dataset.lk) { $('photoBtn').append(' 🔒'); $('photoBtn').dataset.lk = 1; }
+}
+
 $('crisisClose').onclick = () => $('crisis').close();
 
 $('logoutBtn').addEventListener('click', async () => {
@@ -254,5 +291,11 @@ $('logoutBtn').addEventListener('click', async () => {
   const { data: { session } } = await db.auth.getSession();
   if (!session) { location.href = 'auth.html'; return; }
   me = session.user.id;
+  const { data: pr } = await db.from('profiles').select('plan, premium_until, free_posts_used').eq('id', me).single();
+  if (pr) {
+    premium = pr.plan === 'premium' && (!pr.premium_until || new Date(pr.premium_until) > new Date());
+    freeUsed = pr.free_posts_used || 0;
+  }
+  applyPlan();
   loadFeed();
 })();

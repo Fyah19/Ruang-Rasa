@@ -40,11 +40,22 @@
       </div>
     </div>
     <p class="small">Hindari foto yang menampakkan wajah atau identitasmu supaya tetap anonim.</p>
+    <p id="quota" class="small"></p>
+    <div class="upsell" id="upsellBox" hidden>Kuota curhat gratis sudah habis. <a href="akun.html">Berlangganan Premium</a> untuk curhat tanpa batas, foto, balasan, dan peluk virtual.</div>
     <p id="postMsg" class="msg" role="alert"></p>
   </section>
 
   <section id="feed" aria-live="polite"><p class="small">Memuat cerita...</p></section>
 </main>
+
+<dialog id="upsellDlg">
+  <h2 class="hicon"><span data-icon="lock" data-size="22"></span>Fitur Premium</h2>
+  <p id="upsellText"></p>
+  <div class="pending-actions">
+    <a class="btn" href="akun.html">Lihat paket Premium</a>
+    <button class="btn ghost" id="upsellClose" type="button">Nanti saja</button>
+  </div>
+</dialog>
 
 <dialog id="crisis">
   <h2>Kamu tidak sendirian</h2>
