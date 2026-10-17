@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
     f.href = 'favicon.png';
     document.head.append(f);
   }
-  const NAVICONS = { 'feed.html': 'message', 'mood.html': 'smile', 'journal.html': 'book', 'akun.html': 'user' };
+  const NAVICONS = { 'feed.html': 'message', 'mood.html': 'smile', 'journal.html': 'book', 'akun.html': 'user', 'review.html': 'star' };
   document.querySelectorAll('.appnav a').forEach((a) => {
     const n = NAVICONS[a.getAttribute('href')];
     if (n) { a.dataset.icon = n; a.dataset.size = 18; }
@@ -54,3 +54,33 @@ document.addEventListener('DOMContentLoaded', () => {
   if (!document.querySelector('footer')) document.body.insertAdjacentHTML('beforeend', FOOTER);
   paintIcons();
 });
+
+// Menu tab di bawah layar (hanya tampil di HP, hanya di halaman aplikasi)
+function buildTabbar() {
+  if (document.querySelector('.tabbar')) return;
+  const appnav = document.querySelector('.appnav');
+  if (!appnav || !appnav.querySelector('a[href="feed.html"]')) return;
+  const tabs = [
+    ['dashboard.html', 'heart', 'Beranda'],
+    ['feed.html', 'message', 'Curhat'],
+    ['mood.html', 'smile', 'Mood'],
+    ['journal.html', 'book', 'Jurnal'],
+    ['review.html', 'star', 'Ulasan'],
+    ['akun.html', 'user', 'Akun']
+  ];
+  const here = location.pathname.split('/').pop() || 'index.html';
+  const nav = document.createElement('nav');
+  nav.className = 'tabbar';
+  nav.setAttribute('aria-label', 'Menu utama');
+  tabs.forEach(([href, ic, label]) => {
+    const a = document.createElement('a');
+    a.href = href;
+    if (href === here) a.setAttribute('aria-current', 'page');
+    a.innerHTML = '<span data-icon="' + ic + '" data-size="22"></span><span>' + label + '</span>';
+    nav.append(a);
+  });
+  document.body.append(nav);
+  document.body.classList.add('has-tabbar');
+  paintIcons();
+}
+document.addEventListener('DOMContentLoaded', buildTabbar);

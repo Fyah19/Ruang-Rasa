@@ -2,13 +2,15 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Ruang Rasa - Cerita, Tumbuh, Bersama</title>
 <meta name="description" content="Ruang aman untuk bercerita, berkembang, dan menjalani hidup lebih seimbang bersama komunitas yang suportif.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
 <link rel="icon" href="favicon.png">
 <link rel="stylesheet" href="style.css">
+<meta name="theme-color" content="#4B4FA8">
+<link rel="stylesheet" href="mobile.css">
 </head>
 <body>
 
@@ -57,6 +59,13 @@
   <div><span data-icon="lock" data-size="22"></span> Jurnal dan mood pribadi</div>
   <div><span data-icon="phone" data-size="22"></span> Bantuan darurat 119 ext. 8</div>
 </div>
+
+<section id="ulasan" class="reviews-home">
+  <h2 class="hicon" style="justify-content:center"><span data-icon="star" data-size="28"></span>Kata mereka</h2>
+  <p id="rvSummary" class="rv-summary">Memuat ulasan...</p>
+  <div id="rvHome" class="rev-grid"></div>
+  <a class="btn big" href="review.html">Lihat semua ulasan dan bukti transaksi</a>
+</section>
 
 <section class="problem">
   <h2>Kadang yang kita butuhkan cuma didengar.</h2>
@@ -148,12 +157,6 @@
   </div>
 </section>
 
-<section class="preview-sec">
-  <h2 class="hicon" style="justify-content:center"><span data-icon="star" data-size="28"></span>Kata mereka</h2>
-  <p>Ulasan dan rating dari pengguna yang sudah mencoba Ruang Rasa, lengkap dengan bukti transaksinya.</p>
-  <a class="btn big" href="review.html" style="margin-top:1rem">Lihat ulasan</a>
-</section>
-
 <section id="faq" class="faq">
   <h2>Pertanyaan yang sering muncul</h2>
   <details><summary>Apakah benar-benar anonim?</summary><p>Di feed, kamu tampil dengan nama samaran otomatis seperti Mangga-482. Emailmu tidak pernah ditampilkan ke pengguna lain.</p></details>
@@ -177,8 +180,11 @@
 
 </main>
 
-<script src="script.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
 <script src="icons.js"></script>
+<script src="script.js"></script>
 <script src="layout.js"></script>
+<script src="home-reviews.js"></script>
 </body>
 </html>

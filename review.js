@@ -102,3 +102,26 @@ $('lbClose').onclick = () => $('lightbox').close();
   fill($('sys'), sys, sysCard, 'Belum ada ulasan dari transaksi sistem.');
   paintIcons();
 })();
+
+// Kalau pengguna sudah login, tampilkan menu aplikasi (bukan tombol Masuk)
+document.addEventListener('DOMContentLoaded', async function authNav() {
+  const { data: { session } } = await db.auth.getSession();
+  if (!session) return;
+  const nav = document.querySelector('header .appnav');
+  if (!nav) return;
+  nav.replaceChildren();
+  [['feed.html', 'message', 'Curhat'], ['mood.html', 'smile', 'Mood'], ['journal.html', 'book', 'Jurnal'],
+   ['review.html', 'star', 'Ulasan'], ['akun.html', 'user', 'Akun']].forEach(([h, i, t]) => {
+    const a = document.createElement('a');
+    a.href = h; a.dataset.icon = i; a.dataset.size = 18; a.textContent = t;
+    nav.append(a);
+  });
+  const out = el('button', 'btn ghost', 'Keluar');
+  out.type = 'button';
+  out.onclick = async () => { await db.auth.signOut(); location.href = 'index.html'; };
+  nav.append(out);
+  const logo = document.querySelector('.logo');
+  if (logo) logo.href = 'dashboard.html';
+  paintIcons();
+  buildTabbar();
+});

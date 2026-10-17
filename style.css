@@ -252,3 +252,12 @@ dialog textarea{margin-top:.4rem}
 /* kunci Premium */
 [hidden]{display:none!important}
 .btn:disabled{opacity:.5;cursor:not-allowed}
+
+/* ulasan di landing page dan dashboard */
+.reviews-home{text-align:center;padding-top:3rem}
+.reviews-home .rev-grid{text-align:left;margin:1.5rem 0}
+.reviews-home .rev{background:var(--white);box-shadow:0 6px 20px rgba(75,79,168,.1)}
+.rv-summary{margin:.4rem auto 0;font-weight:700;color:var(--indigo)}
+.reviewbar{display:flex;gap:1rem;align-items:center;background:var(--white);border:2px solid var(--lavender);border-radius:var(--radius);padding:1rem 1.3rem;margin-top:1.5rem;text-decoration:none;color:inherit;transition:border-color .2s}
+.reviewbar:hover{border-color:var(--periwinkle)}
+.reviewbar .ico{margin:0;flex:none;background:var(--cream);color:var(--peach-deep)}
