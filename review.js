@@ -48,6 +48,11 @@ function waCard(r) {
   return c;
 }
 
+function usrCard(r) {
+  const c = waCard(r);
+  return c;
+}
+
 function sysCard(r) {
   const c = el('article', 'rev');
   const head = el('div', 'rev-head');
@@ -77,11 +82,13 @@ $('lbClose').onclick = () => $('lightbox').close();
   if (error) {
     $('wa').replaceChildren(el('p', 'msg', 'Gagal memuat ulasan: ' + error.message));
     $('sys').replaceChildren();
+    $('usr').replaceChildren();
     return;
   }
 
   const wa = data.filter((r) => r.source === 'whatsapp');
   const sys = data.filter((r) => r.source === 'system');
+  const usr = data.filter((r) => r.source === 'user');
   const rated = data.filter((r) => r.rating);
   const avg = rated.length ? (rated.reduce((s, r) => s + r.rating, 0) / rated.length).toFixed(1) : '-';
 
@@ -89,7 +96,7 @@ $('lbClose').onclick = () => $('lightbox').close();
     ['Rating rata-rata', avg + ' / 5', 'star'],
     ['Total ulasan', data.length, 'message'],
     ['Via WhatsApp', wa.length, 'phone'],
-    ['Via sistem', sys.length, 'check']
+    ['Via sistem', sys.length + usr.length, 'check']
   ];
   $('sum').replaceChildren(...cards.map(([label, val, ic]) => {
     const c = el('div', 'stat');
@@ -101,6 +108,7 @@ $('lbClose').onclick = () => $('lightbox').close();
 
   fill($('wa'), wa, waCard, 'Belum ada ulasan dari transaksi WhatsApp.');
   fill($('sys'), sys, sysCard, 'Belum ada ulasan dari transaksi sistem.');
+  fill($('usr'), usr, usrCard, 'Belum ada ulasan lain. Jadilah yang pertama!');
   paintIcons();
 })();
 
@@ -126,3 +134,127 @@ document.addEventListener('DOMContentLoaded', async function authNav() {
   paintIcons();
   buildTabbar();
 });
+
+// ===== Pengguna menulis ulasan sendiri =====
+function rvCompress(file) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    const url = URL.createObjectURL(file);
+    img.onload = () => {
+      const scale = Math.min(1, 1600 / Math.max(img.width, img.height));
+      const c = document.createElement('canvas');
+      c.width = Math.round(img.width * scale);
+      c.height = Math.round(img.height * scale);
+      c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+      URL.revokeObjectURL(url);
+      c.toBlob((b) => (b ? resolve(b) : reject(new Error('Gambar gagal diproses'))), 'image/jpeg', 0.85);
+    };
+    img.onerror = () => reject(new Error('File bukan gambar yang valid'));
+    img.src = url;
+  });
+}
+
+(async function userReview() {
+  const { data: { session } } = await db.auth.getSession();
+  if (!session) { $('rvLoginHint').hidden = false; return; }
+  const me = session.user.id;
+  $('rvForm').hidden = false;
+
+  let rating = 0;
+  const stars = $('uStars');
+  const paint = () => stars.querySelectorAll('button').forEach((b, i) => b.classList.toggle('on', i < rating));
+  for (let i = 1; i <= 5; i++) {
+    const b = el('button', 'star-btn', '\u2605');
+    b.type = 'button';
+    b.setAttribute('aria-label', i + ' bintang');
+    b.onclick = () => { rating = i; paint(); };
+    stars.append(b);
+  }
+
+  async function upload(file) {
+    if (!file) return null;
+    if (file.size > 15 * 1024 * 1024) throw new Error('Ukuran gambar terlalu besar (maksimal 15 MB).');
+    const blob = await rvCompress(file);
+    const path = me + '/' + crypto.randomUUID() + '.jpg';
+    const { error } = await db.storage.from('review-images').upload(path, blob, { contentType: 'image/jpeg' });
+    if (error) throw error;
+    return path;
+  }
+  const remove = async (list) => {
+    const l = list.filter(Boolean);
+    if (l.length) await db.storage.from('review-images').remove(l);
+  };
+
+  async function mine() {
+    const { data } = await db.from('reviews')
+      .select('id, rating, content, published, chat_path, proof_path, created_at')
+      .eq('user_id', me).is('order_id', null).order('created_at', { ascending: false });
+    const box = $('myReviews');
+    box.replaceChildren();
+    if (!data || !data.length) return;
+    box.append(el('p', 'small', 'Ulasanmu:'));
+    data.forEach((r) => {
+      const row = el('div', 'entry');
+      const body = el('div', 'entry-body');
+      body.append(el('span', 'small', (r.rating ? '\u2605'.repeat(r.rating) + ' \u00b7 ' : '') + dateId(r.created_at) + ' \u00b7 ' +
+        (r.published ? 'Tampil' : 'Menunggu persetujuan admin')));
+      if (r.content) body.append(el('p', 'small', r.content));
+      const del = el('button', 'link-btn', 'Hapus');
+      del.type = 'button';
+      del.onclick = async () => {
+        if (!confirm('Hapus ulasanmu?')) return;
+        await remove([r.chat_path, r.proof_path]);
+        await db.from('reviews').delete().eq('id', r.id);
+        mine();
+        location.reload();
+      };
+      row.append(body, del);
+      box.append(row);
+    });
+  }
+  mine();
+
+  $('rvForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const msg = $('uMsg');
+    msg.className = 'msg';
+    const text = $('uText').value.trim();
+    const chatFile = $('uChat').files[0];
+    const proofFile = $('uProof').files[0];
+    if (!rating) { msg.textContent = 'Pilih rating bintang dulu.'; return; }
+    if (!text && !chatFile && !proofFile) { msg.textContent = 'Tulis ulasan atau unggah minimal satu gambar.'; return; }
+    if (!$('uConsent').checked) { msg.textContent = 'Centang persetujuan dan penyamaran data pribadi.'; return; }
+
+    $('uSend').disabled = true;
+    let chat = null, proof = null;
+    try {
+      chat = await upload(chatFile);
+      proof = await upload(proofFile);
+    } catch (err) {
+      await remove([chat, proof]);
+      $('uSend').disabled = false;
+      msg.textContent = 'Gagal mengunggah gambar: ' + err.message;
+      return;
+    }
+    const { data: status, error } = await db.rpc('submit_user_review', {
+      p_rating: rating, p_content: text, p_chat: chat, p_proof: proof
+    });
+    $('uSend').disabled = false;
+    if (error) {
+      await remove([chat, proof]);
+      msg.textContent = /LIMIT/.test(error.message)
+        ? 'Kamu sudah mengirim 3 ulasan. Hapus salah satu dulu kalau mau menulis lagi.'
+        : 'Gagal mengirim: ' + error.message;
+      return;
+    }
+    msg.className = 'msg ok';
+    msg.textContent = (chat || proof)
+      ? 'Terima kasih! Ulasanmu menunggu persetujuan admin sebelum tampil.'
+      : 'Terima kasih! Ulasanmu sudah tampil.';
+    rating = 0; paint();
+    ['uText', 'uChat', 'uProof'].forEach((id) => ($(id).value = ''));
+    $('uConsent').checked = false;
+    mine();
+    if (!(chat || proof)) setTimeout(() => location.reload(), 1200);
+  });
+})();

@@ -27,6 +27,35 @@
 
   <section class="stats" id="sum"></section>
 
+  <section class="panel" id="tulis">
+    <h2 class="hicon"><span data-icon="star" data-size="22"></span>Tulis ulasanmu</h2>
+    <div id="rvLoginHint" hidden>
+      <p>Masuk dulu untuk menulis ulasan dan mengunggah bukti chat.</p>
+      <a class="btn" href="auth.html">Masuk atau daftar</a>
+    </div>
+    <form id="rvForm" class="rv-form" hidden novalidate>
+      <p class="small" style="margin:0">Ceritakan pengalamanmu memakai Ruang Rasa. Kamu juga bisa melampirkan screenshot chat testimoni dan bukti pembayaran.</p>
+      <div class="star-input" id="uStars" role="group" aria-label="Rating"></div>
+      <label for="uText">Ulasanmu
+        <textarea id="uText" rows="4" maxlength="600" placeholder="Apa yang kamu suka dari Ruang Rasa? Apa yang bisa diperbaiki?"></textarea>
+      </label>
+      <label for="uChat">Screenshot chat testimoni (opsional)
+        <input id="uChat" type="file" accept="image/jpeg,image/png,image/webp">
+      </label>
+      <label for="uProof">Bukti pembayaran (opsional)
+        <input id="uProof" type="file" accept="image/jpeg,image/png,image/webp">
+      </label>
+      <label class="check" for="uConsent">
+        <input id="uConsent" type="checkbox">
+        <span>Aku setuju ulasan dan gambarku ditampilkan di halaman publik, dan data pribadi (nomor HP, nama lengkap, nomor rekening) sudah aku samarkan.</span>
+      </label>
+      <p class="small" style="margin:0">Ulasan tanpa gambar langsung tampil. Ulasan dengan gambar tampil setelah dicek admin.</p>
+      <p id="uMsg" class="msg" role="alert"></p>
+      <button class="btn" id="uSend" type="submit">Kirim ulasan</button>
+    </form>
+    <div id="myReviews"></div>
+  </section>
+
   <section class="panel">
     <h2 class="hicon"><span data-icon="phone" data-size="22"></span>Transaksi lewat WhatsApp</h2>
     <p class="small">Setiap kartu menampilkan screenshot chat testimoni dan bukti pembayaran. Klik gambar untuk memperbesar.</p>
@@ -39,10 +68,16 @@
     <div id="sys" class="rev-grid"><p class="small">Memuat...</p></div>
   </section>
 
+  <section class="panel" id="userSec">
+    <h2 class="hicon"><span data-icon="users" data-size="22"></span>Ulasan pengguna lainnya</h2>
+    <p class="small">Ulasan dari pengguna Ruang Rasa yang ditulis langsung di halaman ini.</p>
+    <div id="usr" class="rev-grid"><p class="small">Memuat...</p></div>
+  </section>
+
   <section class="cta-band">
     <h2>Sudah mencoba Ruang Rasa?</h2>
-    <p>Setelah transaksimu lunas, kamu bisa memberi rating dan ulasan di halaman Akun.</p>
-    <a class="btn big" href="akun.html">Beri ulasan</a>
+    <p>Kamu bisa menulis ulasan dan mengunggah bukti chat langsung di halaman ini.</p>
+    <a class="btn big" href="#tulis">Tulis ulasan</a>
   </section>
 </main>
 

@@ -47,7 +47,7 @@
     }
     c.append(head);
     if (r.content) c.append(el('p', 'rev-text', r.content.length > 180 ? r.content.slice(0, 177) + '...' : r.content));
-    c.append(el('p', 'small', r.source === 'whatsapp' ? 'Transaksi lewat WhatsApp' : 'Transaksi terverifikasi di sistem'));
+    c.append(el('p', 'small', r.source === 'whatsapp' ? 'Transaksi lewat WhatsApp' : r.source === 'user' ? 'Pengguna Ruang Rasa' : 'Transaksi terverifikasi di sistem'));
     box.append(c);
   });
   if (typeof makeSlider === 'function') makeSlider(box);

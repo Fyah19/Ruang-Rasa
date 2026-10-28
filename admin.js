@@ -249,7 +249,7 @@ $('rvSave').addEventListener('click', async () => {
 
 async function loadReviews() {
   const { data, error } = await db.from('reviews')
-    .select('id, source, display_name, rating, content, chat_path, proof_path, published, created_at')
+    .select('id, source, user_id, display_name, rating, content, chat_path, proof_path, published, created_at')
     .order('created_at', { ascending: false });
   const box = $('rvList');
   box.replaceChildren();
@@ -260,9 +260,9 @@ async function loadReviews() {
     const row = el('div', 'entry');
     const body = el('div', 'entry-body');
     body.append(el('strong', '', r.display_name));
-    body.append(el('span', 'small', ' \u00b7 ' + (r.source === 'whatsapp' ? 'WhatsApp' : 'Sistem') +
+    body.append(el('span', 'small', ' \u00b7 ' + (r.source === 'whatsapp' ? 'WhatsApp' : r.source === 'user' ? 'Pengguna' : 'Sistem') +
       ' \u00b7 ' + (r.rating ? r.rating + '/5' : 'tanpa rating') +
-      ' \u00b7 ' + (r.published ? 'Tampil' : 'Disembunyikan')));
+      ' \u00b7 ' + (r.published ? 'Tampil' : (r.user_id ? 'Menunggu persetujuan' : 'Disembunyikan'))));
     if (r.content) body.append(el('p', 'small', r.content));
     [['Lihat chat', r.chat_path], ['Lihat bukti bayar', r.proof_path]].forEach(([label, path]) => {
       if (!path) return;
@@ -275,7 +275,7 @@ async function loadReviews() {
     });
     row.append(body);
 
-    const toggle = el('button', 'link-btn', r.published ? 'Sembunyikan' : 'Tampilkan');
+    const toggle = el('button', 'link-btn', r.published ? 'Sembunyikan' : 'Setujui dan tampilkan');
     toggle.type = 'button';
     toggle.style.color = 'var(--indigo)';
     toggle.onclick = async () => {
