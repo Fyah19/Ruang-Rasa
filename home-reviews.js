@@ -35,7 +35,7 @@
   }
 
   box.replaceChildren();
-  data.filter((r) => r.content || r.rating).slice(0, 3).forEach((r) => {
+  data.filter((r) => r.content || r.rating).slice(0, 12).forEach((r) => {
     const c = el('article', 'rev');
     const head = el('div', 'rev-head');
     if (r.source === 'system' && typeof avatar === 'function') head.append(avatar(r.display_name));
@@ -50,4 +50,5 @@
     c.append(el('p', 'small', r.source === 'whatsapp' ? 'Transaksi lewat WhatsApp' : 'Transaksi terverifikasi di sistem'));
     box.append(c);
   });
+  if (typeof makeSlider === 'function') makeSlider(box);
 })();

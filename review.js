@@ -63,6 +63,7 @@ function fill(box, list, build, emptyText) {
   box.replaceChildren();
   if (!list.length) { box.append(el('p', 'small', emptyText)); return; }
   list.forEach((r) => box.append(build(r)));
+  makeSlider(box);
 }
 
 $('lbClose').onclick = () => $('lightbox').close();

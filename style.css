@@ -261,3 +261,18 @@ dialog textarea{margin-top:.4rem}
 .reviewbar{display:flex;gap:1rem;align-items:center;background:var(--white);border:2px solid var(--lavender);border-radius:var(--radius);padding:1rem 1.3rem;margin-top:1.5rem;text-decoration:none;color:inherit;transition:border-color .2s}
 .reviewbar:hover{border-color:var(--periwinkle)}
 .reviewbar .ico{margin:0;flex:none;background:var(--cream);color:var(--peach-deep)}
+
+/* slider ulasan */
+.slider{position:relative}
+.slider-track{display:flex;grid-template-columns:none;gap:1rem;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding:.3rem .2rem 1rem;margin-top:1rem;overscroll-behavior-x:contain}
+.slider-track::-webkit-scrollbar{display:none}
+.slider-track>.rev{flex:0 0 min(340px,86%);scroll-snap-align:start;display:flex;flex-direction:column}
+.slider-track .rev-imgs{grid-template-columns:1fr 1fr;margin-top:auto;padding-top:.8rem}
+.slider-track .rev-imgs img{height:130px}
+.slider-track:focus-visible{outline:2px solid var(--periwinkle);outline-offset:2px;border-radius:12px}
+.slider-btn{position:absolute;top:calc(50% - 1rem);width:40px;height:40px;border-radius:50%;border:2px solid var(--lavender);background:var(--white);color:var(--indigo);font-size:1.6rem;line-height:1;cursor:pointer;box-shadow:0 4px 14px rgba(75,79,168,.18);display:flex;align-items:center;justify-content:center;z-index:2;padding:0 0 .15rem}
+.slider-btn:hover{border-color:var(--periwinkle)}
+.slider-btn.prev{left:-.6rem}
+.slider-btn.next{right:-.6rem}
+@media(max-width:700px){.slider-btn{display:none}}
+@media(prefers-reduced-motion:reduce){.slider-track{scroll-behavior:auto}}
